@@ -1,0 +1,8 @@
+.buildozer/
+bin/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+carnet_donnees.json
+parametres.json
