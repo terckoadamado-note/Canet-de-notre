@@ -2,7 +2,7 @@ name: Build Canet de notre APK
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,7 @@ jobs:
       - name: Installer Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
+          python-version: "3.11"
 
       - name: Installer Java et dépendances
         run: |
@@ -28,14 +28,19 @@ jobs:
             cmake libffi-dev libssl-dev \
             automake autopoint gettext
 
-      - name: Installer Buildozer
+      - name: Installer Buildozer et Cython
         run: |
           python -m pip install --upgrade pip setuptools wheel
-          python -m pip install buildozer "Cython==0.29.37"
+          python -m pip install buildozer
+          python -m pip install "Cython==0.29.37"
+
+      - name: Nettoyer les anciens fichiers Buildozer
+        run: |
+          rm -rf .buildozer bin
 
       - name: Compiler l'APK
         run: |
-          yes | buildozer -v android debug
+          buildozer -v android debug
 
       - name: Publier l'APK
         uses: actions/upload-artifact@v4
